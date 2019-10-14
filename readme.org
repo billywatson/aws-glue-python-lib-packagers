@@ -14,10 +14,12 @@ Run the following commands.
 
 #+BEGIN_SRC bash
 # Build the docker image.
-docker build -t build_pg8000
+docker build -t build_pyyaml --build-arg PYTHON_PACKAGE=pyyaml .
+# OR let's say you need a specifc version of the package, you can specify it, requirements-style:
+docker build -t build_pyyaml --build-arg PYTHON_PACKAGE=pyyaml==5.1.2 .
 
-# Generate the zip file needed.
-docker run --rm --name build_pg8000 -v $PWD/zips:/zips build_pg8000
+# Generate the zip file needed (either way you run it above, the run command is the same)
+docker run --rm --name build_pyyaml -v $PWD/zips:/zips build_pyyaml
 
 # Copy the file to S3.
 aws s3 cp ./zips/pg8000.zip s3://my-glue-libs/
